@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MedRebel Ad Creative Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;0,900;1,400;1,700;1,800;1,900&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500;600&family=Caveat:wght@500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0A1828;
+    --navy-deep: #050E18;
+    --cyan: #33CCFF;
+    --cyan-deep: #008CFF;
+    --charcoal: #1A1A1A;
+    --slate: #3D3D3D;
+    --mid: #6B7280;
+    --border: #E2E8F0;
+    --bg: #F5F5F0;
+    --cream: #FAF8F3;
+    --white: #FFFFFF;
+    --gold: #B8860B;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--charcoal); padding: 40px 20px 80px; }
+
+  /* PAGE HEADER */
+  .page-header { max-width: 1280px; margin: 0 auto 40px; padding: 32px 40px; background: var(--charcoal); color: white; border-radius: 12px; }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; line-height: 1.05; margin-bottom: 10px; }
+  .page-header h1 span { color: var(--cyan); }
+  .page-header p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; max-width: 720px; }
+  .page-header .instr { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 12px; font-family: 'DM Mono', monospace; color: rgba(255,255,255,0.55); letter-spacing: 0.5px; }
+  .page-header .instr strong { color: var(--cyan); }
+
+  /* AD SECTION */
+  .ad-section { max-width: 1280px; margin: 0 auto 56px; }
+  .ad-header { display: flex; justify-content: space-between; align-items: baseline; padding: 0 6px 14px; border-bottom: 1px solid var(--border); margin-bottom: 22px; gap: 16px; flex-wrap: wrap; }
+  .ad-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; }
+  .ad-meta { display: flex; gap: 14px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mid); flex-wrap: wrap; }
+  .ad-meta span { padding: 4px 10px; background: white; border: 1px solid var(--border); border-radius: 4px; }
+  .ad-meta .badge-li { background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
+  .ad-meta .badge-fb { background: #FFF7ED; color: #C2410C; border-color: #FED7AA; }
+  .ad-meta .badge-ig { background: #FCE7F3; color: #9D174D; border-color: #FBCFE8; }
+  .ad-meta .badge-go { background: #F0FDF4; color: #166534; border-color: #BBF7D0; }
+  .ad-meta .spec { background: var(--charcoal); color: white; border-color: var(--charcoal); }
+
+  /* TWO-COLUMN: canvas + copy */
+  .ad-row { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 22px; align-items: start; }
+  @media (max-width: 1100px) { .ad-row { grid-template-columns: 1fr; } }
+
+  .copy-pack { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 20px; font-size: 13px; line-height: 1.6; position: sticky; top: 20px; }
+  .copy-pack h4 { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); margin-bottom: 4px; }
+  .copy-pack p { margin-bottom: 14px; color: var(--charcoal); }
+  .copy-pack .field { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed var(--border); }
+  .copy-pack .field:last-child { border-bottom: none; padding-bottom: 0; }
+  .copy-pack .char-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--mid); margin-left: 6px; }
+
+  /* CANVAS - exact pixel rendering */
+  .ad-canvas { background: white; border-radius: 4px; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.12); position: relative; }
+  .ad-canvas.linkedin { width: 1200px; height: 627px; }
+  .ad-canvas.fb-square { width: 1080px; height: 1080px; }
+  .ad-canvas.ig-portrait { width: 1080px; height: 1350px; }
+  .ad-canvas-wrap { width: 100%; overflow: auto; padding: 6px; background: #EFEEEA; border-radius: 8px; }
+  .canvas-scaler { transform-origin: top left; }
+
+  /* AD CREATIVE STYLES - used inside canvases */
+  .creative { width: 100%; height: 100%; position: relative; display: flex; align-items: center; padding: 60px 70px; color: white; overflow: hidden; }
+  .creative.center { text-align: center; justify-content: center; flex-direction: column; }
+  .creative-bg-navy { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%); }
+  .creative-bg-navy-radial { background: radial-gradient(ellipse at top right, rgba(51,204,255,0.20) 0%, transparent 55%), linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%); }
+  .creative-bg-charcoal { background: linear-gradient(135deg, var(--charcoal) 0%, #000 100%); }
+  .creative-bg-black { background: #000; }
+  .creative-bg-split { background: linear-gradient(90deg, #1F2937 0%, #1F2937 50%, var(--cyan-deep) 50%, var(--cyan) 100%); }
+  .creative-bg-navy-cyan { background: linear-gradient(135deg, var(--navy) 0%, var(--navy) 50%, #1B5FBF 100%); }
+  .creative-bg-cream { background: var(--cream); color: var(--charcoal); }
+
+  /* Diagonal accent */
+  .accent-bar { position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: var(--cyan); }
+  .accent-line-h { position: absolute; left: 50%; transform: translateX(-50%); width: 60%; height: 3px; background: var(--cyan); }
+  .accent-line-h.top { top: 50px; }
+  .accent-line-h.bottom { bottom: 80px; }
+
+  /* Logo lockup */
+  .logo-lockup { position: absolute; bottom: 32px; left: 70px; display: flex; align-items: center; gap: 14px; }
+  .logo-lockup.right { left: auto; right: 70px; }
+  .logo-lockup img { height: 32px; width: auto; display: block; }
+  .logo-lockup .tag { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.6); text-transform: uppercase; }
+  .logo-lockup.dark .tag { color: var(--mid); }
+
+  /* Eyebrow */
+  .eyebrow { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--cyan); margin-bottom: 22px; font-weight: 600; }
+
+  /* Big headlines for ads */
+  .ad-h1-serif { font-family: 'Playfair Display', serif; font-weight: 900; letter-spacing: -1px; line-height: 1.05; }
+  .ad-h1-sans { font-family: 'DM Sans', sans-serif; font-weight: 700; letter-spacing: -0.5px; line-height: 1.1; }
+  .ad-sub { font-family: 'DM Sans', sans-serif; font-size: 18px; color: rgba(255,255,255,0.7); margin-top: 18px; line-height: 1.5; max-width: 540px; font-weight: 400; }
+  .ad-sub.dark { color: var(--slate); }
+
+  /* Big stat */
+  .stat-block { display: flex; align-items: baseline; gap: 24px; }
+  .stat-num { font-family: 'Playfair Display', serif; font-weight: 900; color: var(--cyan); line-height: 1; }
+  .stat-num.huge { font-size: 280px; }
+  .stat-num.large { font-size: 180px; }
+  .stat-num.med { font-size: 110px; }
+  .stat-label { font-size: 18px; color: rgba(255,255,255,0.7); line-height: 1.3; text-transform: uppercase; letter-spacing: 1.5px; }
+
+  /* Quote treatment */
+  /* .pull-quote with giant " mark removed per Ryan review · 2026-05-26 */
+  .quote-attr { font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 22px; }
+  .quote-attr.dark { color: var(--mid); }
+
+  /* Stat row footer */
+  .stat-row { position: absolute; bottom: 30px; left: 70px; right: 70px; display: flex; justify-content: space-between; align-items: center; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.18); }
+  .stat-row .item { text-align: center; }
+  .stat-row .item .n { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: var(--cyan); line-height: 1; }
+  .stat-row .item .l { font-size: 10px; color: rgba(255,255,255,0.55); margin-top: 5px; text-transform: uppercase; letter-spacing: 1.5px; }
+
+  /* Side-by-side compare */
+  .compare-grid { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 30px; width: 100%; align-items: center; padding: 0 30px; }
+  .compare-cell { text-align: center; }
+  .compare-cell .label { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+  .compare-cell .pct { font-family: 'Playfair Display', serif; font-size: 180px; font-weight: 900; color: white; line-height: 1; }
+  .compare-cell.after .pct { color: var(--cyan); }
+  .compare-cell .sub { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 8px; }
+  .compare-arrow { font-family: 'Playfair Display', serif; font-size: 60px; color: var(--cyan); font-weight: 700; text-align: center; }
+  .compare-divider { width: 2px; background: var(--cyan); height: 80%; margin: 0 auto; }
+
+  /* Photo creative */
+  .creative.has-photo { padding: 0; }
+  .creative-photo-half { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; }
+  .creative-photo-half .photo { background-size: cover; background-position: center; }
+  .creative-photo-half .text-panel { padding: 60px 50px; display: flex; flex-direction: column; justify-content: center; color: white; }
+  .creative-photo-half.right-photo .text-panel { order: 1; }
+  .creative-photo-half.right-photo .photo { order: 2; }
+
+  /* Full bleed photo with overlay text */
+  .creative-photo-bleed { position: absolute; inset: 0; background-size: cover; background-position: center; }
+  .creative-photo-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,37,64,0.30) 0%, rgba(10,37,64,0.85) 70%, rgba(6,22,41,0.95) 100%); }
+  .creative-photo-overlay-bottom { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 40%, transparent 65%); }
+  .creative-photo-content { position: absolute; left: 60px; right: 60px; bottom: 60px; color: white; z-index: 2; }
+
+  /* Six principles list */
+  .principles { font-family: 'DM Sans', sans-serif; font-size: 22px; line-height: 1.9; }
+  .principles .pnum { font-family: 'DM Mono', monospace; color: var(--cyan); font-weight: 600; margin-right: 14px; }
+
+  /* IG portrait specific */
+  .ig-content { padding: 80px 60px; }
+
+  /* Section divider for grouping */
+  .group-divider { max-width: 1280px; margin: 60px auto 30px; padding-top: 30px; border-top: 2px solid var(--charcoal); }
+  .group-divider h2 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 800; color: var(--charcoal); }
+  .group-divider p { font-size: 14px; color: var(--mid); margin-top: 6px; }
+
+  /* ============= LIGHT MODE BRAND VARIANT (matches pricing page) ============= */
+  .lm-wrap { width: 100%; height: 100%; background: #F4F4F8; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+  .lm-header { background: #0A1828; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .lm-header img { height: 36px; }
+  .lm-header .eyebrow-r { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; color: rgba(51,204,255,0.85); text-transform: uppercase; font-weight: 600; }
+  .lm-body { flex: 1; display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; position: relative; }
+  .lm-body.stacked { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+  .lm-photo { background-size: cover; background-position: center; position: relative; }
+  .lm-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 60%, rgba(244,244,248,0.7) 100%); }
+  .lm-body.stacked .lm-photo::after { background: linear-gradient(180deg, transparent 55%, rgba(244,244,248,0.95) 100%); }
+  .lm-content { padding: 50px 50px 40px; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 2; }
+  .lm-body.stacked .lm-content { padding: 40px 60px 60px; }
+  .lm-eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 2.5px; color: #008CFF; text-transform: uppercase; font-weight: 600; margin-bottom: 18px; }
+  .lm-h1 { font-family: 'DM Sans', sans-serif; font-size: 52px; font-weight: 900; color: #0A1828; line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 18px; }
+  .lm-h1 .accent { background: linear-gradient(90deg, #33CCFF 0%, #008CFF 50%, #005FFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; }
+  .lm-sub { font-family: 'DM Sans', sans-serif; font-size: 17px; color: #3D3D3D; line-height: 1.5; max-width: 480px; margin-bottom: 24px; }
+  .lm-footer { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.8px; color: #6B7280; text-transform: uppercase; margin-top: auto; padding-top: 16px; border-top: 1px solid #DDE2EA; }
+  .lm-footer strong { color: #008CFF; font-weight: 600; }
+  /* SQUARE TWEAKS */
+  .lm-square .lm-h1 { font-size: 60px; }
+  .lm-square .lm-sub { font-size: 19px; max-width: 100%; }
+  .lm-square .lm-content { padding: 50px 70px 60px; }
+  .lm-square .lm-header { padding: 24px 50px; }
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <h1>MedRebel Ad Creative Deck<br><span>Built in Code. No AI Slop.</span></h1>
+  <p>Every ad below is rendered at exact upload spec. Right-click any creative, choose "Save image as", or use your browser's "Capture Node" tool in DevTools to export at retina resolution. Headlines, body text, CTAs, and landing URLs sit in the side panel next to each creative for paste-into-platform speed.</p>
+  <div class="instr"><strong>EXPORT TIP:</strong> In Chrome DevTools, right-click the .ad-canvas element → "Capture node screenshot". Renders at exact spec. Or screenshot at 2x for retina.</div>
+</div>
+
+<!-- ========================================= -->
+<!-- LINKEDIN AD SET A: Stop Being the Operating System -->
+<!-- ========================================= -->
+<div class="group-divider">
+  <h2>LinkedIn · Ad Set A: Leadership Hook</h2>
+  <p>"Stop being the de facto operating system of your own practice." Angle: identity and leadership. Landing: medrebel.io/demo. CTA: Learn More.</p>
+</div>
+
+<!-- A1 -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">A1 · The Other Path (Burnout Stat)</div>
+    <div class="ad-meta">
+      <span class="badge-li">LinkedIn + Facebook</span>
+      <span class="spec">1200 × 627</span>
+      <span>Image left + copy right · Dentist Super Stressed</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas linkedin">
+          <div class="creative" style="background:var(--navy); padding:0; display:grid; grid-template-columns: 1fr 1.3fr; height:627px; width:100%;">
+            <!-- LEFT ~43%: Dentist Super Stressed image, anchored left so dentist is not cut off -->
+            <div style="background-image:url('Dentist%20Super%20Stressed.jpeg'); background-size:cover; background-position:25% center; background-repeat:no-repeat; background-color:var(--navy); min-height:627px;"></div>
+            <!-- RIGHT ~57%: navy with burnout stat + action-oriented closer -->
+            <div style="padding:36px 50px 18px; display:flex; flex-direction:column; justify-content:space-between; background:var(--navy);">
+              <div>
+                <div class="eyebrow" style="margin-bottom:14px;">For Independent Dentists</div>
+
+                <!-- Two-stat grid with cyan divider -->
+                <div style="display:grid; grid-template-columns:1fr 1px 1fr; gap:28px; margin-bottom:16px; align-items:start;">
+                  <div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:132px; font-weight:900; color:white; line-height:0.88; letter-spacing:-5px; margin-bottom:10px;">60%</div>
+                    <p style="font-family:'DM Sans', sans-serif; font-size:17px; font-weight:600; color:white; line-height:1.3; margin:0; letter-spacing:-0.2px;">have considered early retirement or a career change.</p>
+                  </div>
+                  <div style="width:1px; background:rgba(51,204,255,0.35); align-self:stretch;"></div>
+                  <div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:132px; font-weight:900; color:white; line-height:0.88; letter-spacing:-5px; margin-bottom:10px;">82%</div>
+                    <p style="font-family:'DM Sans', sans-serif; font-size:17px; font-weight:600; color:white; line-height:1.3; margin:0; letter-spacing:-0.2px;">report major stress or career burnout.</p>
+                  </div>
+                </div>
+
+                <p style="font-family:'DM Mono', monospace; font-size:11px; font-weight:500; color:rgba(255,255,255,0.55); letter-spacing:0.7px; margin:0 0 56px;">Source: ADA 2024 Dentist Trend Report</p>
+
+                <div style="font-family:'Playfair Display', serif; font-size:32px; font-weight:400; font-style:italic; color:var(--cyan); letter-spacing:-0.6px; line-height:1.22; margin:0;">Burnout is not proof that you care.<br>It is proof that the system is asking you to carry too much.</div>
+              </div>
+              <div style="padding-top:48px;">
+                <div style="display:inline-flex; flex-direction:column; align-items:center;">
+                  <img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:48px; margin-bottom:14px;">
+                  <div style="font-family:'DM Sans', sans-serif; font-size:18px; font-weight:700; color:white; letter-spacing:6.5px; line-height:1; text-transform:uppercase;">Systems <span style="color:var(--cyan); font-weight:800;">+</span> Heart</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline (≤70)</h4><p>60% considered leaving. 82% burned out. There is a healthier way forward.</p></div>
+      <div class="field"><h4>Intro text (~150) · above the image in feed</h4><p>Per the ADA's 2024 Dentist Trend Report, 60% of dentists have considered early retirement and 82% report major stress or burnout. Read the case study to see this mission in action and learn how two Houston dentists found a healthier way forward. The Hockley Dental Case Study + Leadership Guide.</p></div>
+      <div class="field"><h4>Description</h4><p>The Hockley Dental Case Study + Leadership Guide. Independent ownership done right.</p></div>
+      <div class="field"><h4>CTA</h4><p>Learn More</p></div>
+      <div class="field"><h4>Landing URL</h4><p>hockley.medrebel.io</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- A2 -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">A2 · The Doctor Should Be Leading</div>
+    <div class="ad-meta">
+      <span class="badge-li">LinkedIn + Facebook</span>
+      <span class="spec">1200 × 627</span>
+      <span>Left copy / right photo · 1 : 1.35 split</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas linkedin">
+          <div class="creative" style="background:var(--navy); padding:0; position:relative;">
+            <div class="creative-photo-half" style="grid-template-columns: 1fr 1.35fr;">
+              <div class="text-panel" style="display:flex; flex-direction:column; justify-content:space-between; padding:72px 44px 38px; text-align:left;">
+                <div>
+                  <div class="eyebrow" style="text-align:left; margin-bottom:18px;">Built By Independent Dentists</div>
+                  <h2 style="font-family:'DM Sans', sans-serif; font-size:40px; font-weight:900; color:white; line-height:1.0; letter-spacing:-1.5px; margin:0;">Practice dentistry.<br><span style="color:var(--cyan);">Stop practicing operations.</span></h2>
+                  <p style="font-family:'DM Sans', sans-serif; font-size:17px; color:rgba(255,255,255,0.85); line-height:1.4; margin-top:24px; max-width:380px; font-weight:500;">MedRebel OS handles the friction so you can focus on the chair.</p>
+                </div>
+                <div style="text-align:left;">
+                  <div style="display:inline-flex; flex-direction:column; align-items:center;">
+                    <img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:48px; margin-bottom:14px;">
+                    <div style="font-family:'DM Sans', sans-serif; font-size:18px; font-weight:700; color:white; letter-spacing:6.5px; line-height:1; text-transform:uppercase;">Systems <span style="color:var(--cyan); font-weight:800;">+</span> Heart</div>
+                  </div>
+                </div>
+              </div>
+              <div class="photo" style="background-image:url('Stop%20practicing%20Operations.jpeg'); background-position:center center; background-size:cover;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline (≤70)</h4><p>Practice dentistry. Stop practicing operations.</p></div>
+      <div class="field"><h4>Intro text (~150)</h4><p>You trained for the chair. Not the inbox. MedRebel OS was built by practicing dentists who run their own independent practices. It is the system that lets you stay in the chair without losing control of the rest.</p></div>
+      <div class="field"><h4>Description (≤70)</h4><p>MedRebel OS handles the friction so you can focus on the chair.</p></div>
+      <div class="field"><h4>CTA</h4><p>Request Demo</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/demo</p></div>
+      <div class="field"><h4>Image</h4><p>dentist-super-stressed.jpeg (visibly stressed dentist). Pairs with the headline by showing what "practicing operations" looks like, what the doctor is rescued from.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- A3 removed per Ryan's review · 2026-05-26 -->
+
+<!-- ========================================= -->
+<!-- LINKEDIN AD SET B: 93:1 ROI -->
+<!-- ========================================= -->
+<div class="group-divider">
+  <h2>LinkedIn · Ad Set B: Proof Hook</h2>
+  <p>"93:1 ROI. One independent practice. No PE backing." Angle: proof and numbers. Landing: medrebel.io/hockley-case-study. CTA: Download.</p>
+</div>
+
+<!-- B1 removed per Ryan's review · 2026-05-26 -->
+
+<!-- B2 -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">B2 · Why Not Have It All</div>
+    <div class="ad-meta">
+      <span class="badge-li">LinkedIn + Facebook</span>
+      <span class="spec">1200 × 627</span>
+      <span>50/50 split · Text left · MedRebel Hero image right</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas linkedin">
+          <div class="creative" style="background:var(--navy); padding:0; display:grid; grid-template-columns: 1fr 1fr; height:627px; width:100%;">
+            <!-- LEFT 50%: text -->
+            <div style="padding:34px 40px 30px; display:flex; flex-direction:column; justify-content:space-between; background:var(--navy);">
+              <div>
+                <div class="eyebrow" style="margin-bottom:14px; color:var(--cyan);">Hockley Dental Case Study</div>
+                <h2 style="font-family:'DM Sans', sans-serif; font-size:28px; font-weight:700; color:white; line-height:1.2; letter-spacing:-0.5px; margin:0 0 22px;">If you had to choose one outcome after 12 months, <span style="color:var(--cyan);">which would matter most?</span></h2>
+
+                <!-- Four outcomes, single column with cyan bullets -->
+                <div style="display:flex; flex-direction:column; gap:22px; margin-bottom:24px;">
+                  <div style="display:flex; gap:18px; align-items:baseline;">
+                    <div style="font-family:'DM Sans', sans-serif; font-size:30px; font-weight:700; color:var(--cyan); line-height:1; flex-shrink:0; width:14px;">&bull;</div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:24px; font-weight:600; color:white; line-height:1.3; letter-spacing:-0.4px;">200 average new patients per month.</div>
+                  </div>
+                  <div style="display:flex; gap:18px; align-items:baseline;">
+                    <div style="font-family:'DM Sans', sans-serif; font-size:30px; font-weight:700; color:var(--cyan); line-height:1; flex-shrink:0; width:14px;">&bull;</div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:24px; font-weight:600; color:white; line-height:1.3; letter-spacing:-0.4px;">42% to 75% new patient conversion rate.</div>
+                  </div>
+                  <div style="display:flex; gap:18px; align-items:baseline;">
+                    <div style="font-family:'DM Sans', sans-serif; font-size:30px; font-weight:700; color:var(--cyan); line-height:1; flex-shrink:0; width:14px;">&bull;</div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:24px; font-weight:600; color:white; line-height:1.3; letter-spacing:-0.4px;">$70,000 in new recurring monthly revenue.</div>
+                  </div>
+                  <div style="display:flex; gap:18px; align-items:baseline;">
+                    <div style="font-family:'DM Sans', sans-serif; font-size:30px; font-weight:700; color:var(--cyan); line-height:1; flex-shrink:0; width:14px;">&bull;</div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:24px; font-weight:600; color:white; line-height:1.3; letter-spacing:-0.4px;">A team with less friction, cleaner handoffs, and a culture worth showing up for.</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div style="padding-top:24px; text-align:center;">
+                <img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:48px; display:inline-block; margin-bottom:14px;">
+                <div style="font-family:'DM Sans', sans-serif; font-size:24px; font-weight:700; color:white; letter-spacing:-0.5px; line-height:1;">Systems <span style="color:var(--cyan); font-weight:800;">+</span> Heart</div>
+              </div>
+            </div>
+            <!-- RIGHT 50%: MedRebel Hero image, shifted further again -->
+            <div style="background-image:url('MedREbel_Hero_colorFIX.jpeg'); background-size:cover; background-position:70% center; min-height:627px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline (≤70)</h4><p>Growth That Holds. Culture That Wins.</p></div>
+      <div class="field"><h4>Intro text (~150)</h4><p>200 new patients per month. 42% to 75% new patient conversion. $70,000 in new recurring monthly revenue. A team with less friction and a culture worth showing up for. If you had to choose one outcome after 12 months, which would matter most?</p></div>
+      <div class="field"><h4>Description</h4><p>Read how Hockley Dental is building the future of independent dentistry with MedRebel OS.</p></div>
+      <div class="field"><h4>CTA</h4><p>Learn More</p></div>
+      <div class="field"><h4>Landing URL</h4><p>hockley.medrebel.io</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- B3 removed per Ryan's review · 2026-05-26 -->
+
+<!-- B5: Paid-Optimized Systems + Heart -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">B5 · Systems + Heart (Paid-Optimized Variant)</div>
+    <div class="ad-meta">
+      <span class="badge-li">LinkedIn + Facebook</span>
+      <span class="spec">1200 × 627</span>
+      <span>40/60 split · Faded hallway right · Vertical bios</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas linkedin">
+          <div class="creative" style="background:#0A1828; padding:0; display:grid; grid-template-columns: 2fr 3fr; height:100%; align-items:stretch; position:relative;">
+            <!-- LEFT 50%: solid navy with title + descriptive subtitle -->
+            <div style="padding:42px 50px 36px; display:flex; flex-direction:column; justify-content:space-between;">
+              <div>
+                <img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:36px; margin-bottom:36px;">
+                <div style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:3px; color:#33CCFF; text-transform:uppercase; font-weight:600; margin-bottom:20px;">Hockley Dental · NW Houston</div>
+                <h2 style="font-family:'DM Sans', sans-serif; font-size:96px; font-weight:900; color:white; line-height:0.92; letter-spacing:-3.5px;">Systems<br><span style="color:#33CCFF;">+ Heart</span></h2>
+                <p style="font-family:'Playfair Display', Georgia, serif; font-style:italic; font-weight:400; font-size:24px; color:rgba(255,255,255,0.88); line-height:1.35; letter-spacing:-0.3px; margin-top:32px; max-width:480px;">What if 230 new patients a month was the <span style="color:var(--cyan);">least exciting</span> part of the story.</p>
+              </div>
+              <div style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:2px; color:rgba(255,255,255,0.55); text-transform:uppercase;">hockley.medrebel.io</div>
+            </div>
+            <!-- RIGHT 50%: full bleed faded hallway image with vertical bios overlaid -->
+            <div style="position:relative; overflow:hidden; background:#0A1828;">
+              <!-- Background image: stretched full bleed top to bottom, fills 100% width and 100% height -->
+              <div style="position:absolute; inset:0; background-image:url('dental%20practice%20hallway%20modern.jpeg'); background-size:100% 100%; background-position:center center; background-repeat:no-repeat; opacity:0.32;"></div>
+              <!-- Subtle navy tint so bios pop, no banded header/footer -->
+              <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(10,24,40,0.45) 0%, rgba(10,24,40,0.20) 100%);"></div>
+              <!-- Vertical bios stack, shifted left, larger photo fill inside the circle -->
+              <div style="position:relative; z-index:2; padding:30px 30px 30px 40px; display:flex; flex-direction:column; gap:28px; height:100%; justify-content:center;">
+                <div style="display:flex; align-items:center; gap:18px;">
+                  <div style="width:120px; height:120px; border-radius:50%; background-image:url('bessey.png'); background-size:115%; background-position:center center; background-color:#0A1828; border:3px solid #33CCFF; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:26px; font-weight:800; color:white; line-height:1.1; letter-spacing:-0.5px;">Dr. Chris Bessey, DDS</div>
+                    <div style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:2px; color:#33CCFF; text-transform:uppercase; margin-top:7px; font-weight:600;">Co-Founder · CDO</div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:14px; color:rgba(255,255,255,0.72); margin-top:6px;">10+ Yrs · Hockley + Granger Pines</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:18px;">
+                  <div style="width:120px; height:120px; border-radius:50%; background-image:url('gonzales.png'); background-size:115%; background-position:center center; background-color:#0A1828; border:3px solid #33CCFF; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:26px; font-weight:800; color:white; line-height:1.1; letter-spacing:-0.5px;">Dr. Jose Gonzales, DDS</div>
+                    <div style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:2px; color:#33CCFF; text-transform:uppercase; margin-top:7px; font-weight:600;">Co-Founder · Clinical Advisor</div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:14px; color:rgba(255,255,255,0.72); margin-top:6px;">10+ Yrs · Hockley + Granger Pines</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:18px;">
+                  <div style="width:120px; height:120px; border-radius:50%; background-image:url('Ryan_Jacox.png'); background-size:115%; background-position:center center; background-color:#0A1828; border:3px solid #33CCFF; flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:26px; font-weight:800; color:white; line-height:1.1; letter-spacing:-0.5px;">Ryan Jacox</div>
+                    <div style="font-family:'DM Mono', monospace; font-size:11px; letter-spacing:2px; color:#33CCFF; text-transform:uppercase; margin-top:7px; font-weight:600;">Founder · CEO</div>
+                    <div style="font-family:'DM Sans', sans-serif; font-size:14px; color:rgba(255,255,255,0.72); margin-top:6px;">15+ Yrs · Healthcare Operations</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Why this variant exists</h4><p>50/50 layout. Left half: solid navy with the Systems + Heart title and a tight pull quote, no decoration noise. Right half: faded dental practice hallway photograph (left side of image cropped, 32% opacity) with the three founder bios stacked vertically at full readable size. Heart-first thesis stays. Trust signal upgrades from a small circle row to substantial portrait + name + role + tenure cards.</p></div>
+      <div class="field"><h4>Headline (≤70)</h4><p>What if 230 new patients a month was the least exciting part of the story.</p></div>
+      <div class="field"><h4>Intro text (~150)</h4><p>Two practicing dentists. One operating system. The Hockley case study documents what happens when an independent practice builds systems strong enough to protect the heart that makes it worth protecting. Free.</p></div>
+      <div class="field"><h4>Description</h4><p>The Hockley Dental case study. Free download.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hockley-case-study</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- B4 removed per Ryan · 2026-05-25 — redundant with B5 once B5 absorbed the "least exciting number" pull-quote line. -->
+
+<!-- ========================================= -->
+<!-- LINKEDIN AD SET C: Manifesto -->
+<!-- ========================================= -->
+<div class="group-divider">
+  <h2>LinkedIn · Ad Set C: Manifesto Hook</h2>
+  <p>"Corporate dentistry built systems. Independent dentistry built soul." Angle: movement and identity. Landing: medrebel.io/hockley-case-study.</p>
+</div>
+
+<!-- C2 -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">C2 · DSOs Cannot Replicate</div>
+    <div class="ad-meta">
+      <span class="badge-li">LinkedIn + Facebook</span>
+      <span class="spec">1200 × 627</span>
+      <span>Charcoal · Single cyan line</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas linkedin">
+          <div class="creative creative-bg-charcoal">
+            <div style="max-width:900px;">
+              <div class="eyebrow">For Independent Owners</div>
+              <h2 class="ad-h1-serif" style="font-size:54px; color:white; line-height:1.2;">DSOs can outspend you. They <span style="color:var(--cyan);">cannot replicate</span> what is inside your office.</h2>
+              <div style="margin-top:28px; width:120px; height:3px; background:var(--cyan);"></div>
+              <p class="ad-sub" style="margin-top:24px;">Built for the practice that refuses to choose growth or culture.</p>
+            </div>
+            <div class="logo-lockup right"><img src="logo-dark-horizontal.svg" alt="MedRebel"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline (≤70)</h4><p>DSOs can outspend you. They cannot replicate what is in your office.</p></div>
+      <div class="field"><h4>Intro text (~150)</h4><p>The doctor who knows every patient by name. The team that stayed because they believed. That is your advantage. We give you the systems to protect it.</p></div>
+      <div class="field"><h4>Description (≤70)</h4><p>Built for the practice that refuses to choose growth or culture.</p></div>
+      <div class="field"><h4>CTA</h4><p>Learn More</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hockley-case-study</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- C3 -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">C3 · Infrastructure + Soul</div>
+    <div class="ad-meta">
+      <span class="badge-li">LinkedIn + Facebook</span>
+      <span class="spec">1200 × 627</span>
+      <span>Navy + radial · v2 cover aesthetic</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas linkedin">
+          <div class="creative creative-bg-navy-radial center">
+            <div class="eyebrow">MedRebel OS</div>
+            <h2 class="ad-h1-serif" style="font-size:64px; color:white; line-height:1.1; max-width:900px;">The infrastructure to grow.<br><span style="color:var(--cyan);">The soul to stay independent.</span></h2>
+            <p class="ad-sub" style="text-align:center; max-width:680px; margin-top:24px;">Hockley Dental case study. Free download.</p>
+            <div style="margin-top:36px;"><img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:32px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline (≤70)</h4><p>The infrastructure to grow. The soul to stay independent.</p></div>
+      <div class="field"><h4>Intro text (~150)</h4><p>No PE backing. No corporate group. No sold-out culture. Just the systems Hockley Dental built and the playbook you can use this week.</p></div>
+      <div class="field"><h4>Description (≤70)</h4><p>Hockley Dental case study. Free download.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hockley-case-study</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- META SQUARE ADS 1080x1080 -->
+<!-- ========================================= -->
+<div class="group-divider">
+  <h2>Meta · Facebook + Instagram Feed (1080 × 1080)</h2>
+  <p>Square format for FB Feed and IG Feed. Higher visual density, tighter copy in the creative itself.</p>
+</div>
+
+<!-- M1: 93:1 Square -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">M1 · 93:1 ROI Square</div>
+    <div class="ad-meta">
+      <span class="badge-fb">FB Feed</span>
+      <span class="badge-ig">IG Feed</span>
+      <span class="spec">1080 × 1080</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas fb-square">
+          <div class="creative creative-bg-black center" style="padding:80px 70px;">
+            <div class="eyebrow">Return on Investment</div>
+            <div class="stat-num huge" style="font-size:380px; margin:20px 0;">93<span style="font-size:180px; color:white;">:1</span></div>
+            <h2 class="ad-h1-serif" style="font-size:42px; color:white; line-height:1.2; max-width:860px;">One independent dental practice.<br>No PE backing. No corporate group.</h2>
+            <p class="ad-sub" style="text-align:center; margin-top:24px; font-size:20px;">The Hockley Dental case study. Free download.</p>
+            <div style="margin-top:50px;"><img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:36px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline (FB)</h4><p>One Independent Practice. 93:1 ROI.</p></div>
+      <div class="field"><h4>Primary text</h4><p>One independent dental practice in NW Houston. No private equity. No corporate group. 230 new patients a month. 93:1 ROI. We documented everything in the Hockley Dental case study. Free download. No pitch. Just what worked.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hockley-case-study</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- M2: Success Feels Like Failure -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">M2 · Success Feels Like Failure</div>
+    <div class="ad-meta">
+      <span class="badge-fb">FB Feed</span>
+      <span class="badge-ig">IG Feed</span>
+      <span class="spec">1080 × 1080</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas fb-square">
+          <div class="creative has-photo">
+            <div class="creative-photo-bleed" style="background-image:url('The%20old%20way%20is%20breaking.jpeg');"></div>
+            <div class="creative-photo-overlay-bottom"></div>
+            <div class="creative-photo-content">
+              <div class="eyebrow">Hockley Dental Case Study</div>
+              <h2 class="ad-h1-serif" style="font-size:64px; color:white; line-height:1.1;">There is a version of success that feels like failure from the inside.</h2>
+              <div style="margin-top:32px; display:flex; align-items:center; justify-content:space-between;">
+                <span style="font-family:'DM Mono', monospace; font-size:14px; color:rgba(255,255,255,0.7); letter-spacing:2px; text-transform:uppercase;">Free download</span>
+                <img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:32px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>The Practice Was Working. It Just Didn't Feel Like It.</p></div>
+      <div class="field"><h4>Primary text</h4><p>The schedule was full. Hygiene was booked. The phones kept ringing. And every day felt harder than the one before it. That was Hockley Dental before MedRebel. Not because they were failing. Because they were succeeding without the systems underneath it. Download the case study.</p></div>
+      <div class="field"><h4>CTA</h4><p>Get the Case Study</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hockley-case-study</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- M3: Office Manager Field Guide -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">M3 · Office Manager Field Guide</div>
+    <div class="ad-meta">
+      <span class="badge-fb">FB Feed</span>
+      <span class="badge-ig">IG Feed</span>
+      <span class="spec">1080 × 1080</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas fb-square">
+          <div class="creative has-photo">
+            <div class="creative-photo-bleed" style="background-image:url('Office%20Manager%203.jpeg');"></div>
+            <div class="creative-photo-overlay-bottom"></div>
+            <div class="creative-photo-content">
+              <div class="eyebrow">For Office Managers</div>
+              <h2 class="ad-h1-serif" style="font-size:54px; color:white; line-height:1.15;">Responsibility without visibility is not leadership.<br><span style="color:var(--cyan); font-style:italic;">It is pressure.</span></h2>
+              <p class="ad-sub" style="margin-top:18px; font-size:18px; max-width:none;">The Office Manager Field Guide. Free download.</p>
+              <div style="margin-top:24px;"><img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:30px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>The Office Manager Field Guide</p></div>
+      <div class="field"><h4>Primary text</h4><p>A strong office manager cannot lead from scattered information. She cannot own follow-up she cannot see. She cannot protect the doctor's time if every problem has to be escalated. This field guide was built for the person running the day. Practical frameworks. Real examples. Nothing written by someone who has never worked a front desk.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download Free</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/office-manager-guide</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- M4: HIPAA Quiz -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">M4 · HIPAA Quiz</div>
+    <div class="ad-meta">
+      <span class="badge-fb">FB Feed</span>
+      <span class="badge-ig">IG Feed</span>
+      <span class="spec">1080 × 1080</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas fb-square">
+          <div class="creative creative-bg-navy center" style="padding:80px 70px;">
+            <div class="eyebrow" style="color:#FFC857;">90-Second Quiz</div>
+            <h2 class="ad-h1-serif" style="font-size:120px; color:white; line-height:1; margin-top:20px;">HIPAA:</h2>
+            <h2 class="ad-h1-serif" style="font-size:120px; color:var(--cyan); line-height:1; margin-bottom:30px;">Fine or No Fine?</h2>
+            <p class="ad-sub" style="text-align:center; max-width:780px; font-size:22px;">Most practices handle HIPAA training reactively. Scale exposes every gap. Take the quiz, see your compliance score.</p>
+            <div style="margin-top:50px; display:inline-block; background:var(--cyan); color:white; padding:18px 42px; border-radius:10px; font-weight:700; font-size:18px;">Take the Quiz · Free</div>
+            <div style="margin-top:40px;"><img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:30px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>HIPAA: Fine or No Fine? Take the 90-Second Quiz.</p></div>
+      <div class="field"><h4>Primary text</h4><p>Most practices handle HIPAA training reactively. Rarely proactively. Scale exposes every gap. Take our 90-second quiz. Ten real scenarios. You decide: fine or no fine. At the end, you get your compliance score and the exact gaps you need to fix.</p></div>
+      <div class="field"><h4>CTA</h4><p>Take the Quiz</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hipaa-quiz</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- INSTAGRAM PORTRAIT 1080 × 1350 -->
+<!-- ========================================= -->
+<div class="group-divider">
+  <h2>Instagram Portrait (1080 × 1350)</h2>
+  <p>Vertical format optimized for IG feed. Higher real estate, deeper editorial feel.</p>
+</div>
+
+<!-- IG1: A Spike -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">IG1 · A Spike Quote</div>
+    <div class="ad-meta">
+      <span class="badge-ig">Instagram</span>
+      <span class="spec">1080 × 1350</span>
+      <span>Magazine pull quote</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas ig-portrait">
+          <div class="creative creative-bg-navy" style="padding:0; flex-direction:column;">
+            <div style="padding:90px 70px 0; width:100%;">
+              <div class="eyebrow" style="font-size:14px; margin-bottom:60px;">Hockley Dental Case Study · Ch. 5</div>
+            </div>
+            <div style="flex:1; padding:0 70px; display:flex; align-items:center;">
+              <div style="padding-left:20px; border-left:4px solid var(--cyan);">
+                <h2 class="ad-h1-serif" style="font-size:80px; color:white; line-height:1.05; font-style:italic;">A spike gets explained away.</h2>
+                <h2 class="ad-h1-serif" style="font-size:80px; color:var(--cyan); line-height:1.05; font-style:italic; margin-top:24px;">Compounds quietly.</h2>
+              </div>
+            </div>
+            <div style="padding:40px 70px 80px; width:100%; border-top:1px solid rgba(255,255,255,0.12); display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-family:'DM Mono', monospace; font-size:13px; letter-spacing:2px; color:rgba(255,255,255,0.55); text-transform:uppercase;">Free Download</div>
+                <div style="color:white; font-size:18px; font-weight:600; margin-top:4px;">The Hockley Dental Case Study</div>
+              </div>
+              <img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:32px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>A Spike Gets Explained Away. Compounds Quietly.</p></div>
+      <div class="field"><h4>Primary text</h4><p>Hockley Dental is in year two. 230 new patients a month. 8 months above 200. $70K in additional monthly revenue. One independent practice. No private equity. We documented it. Free.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hockley-case-study</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- IG2: Six Principles -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">IG2 · Six Principles</div>
+    <div class="ad-meta">
+      <span class="badge-ig">Instagram</span>
+      <span class="spec">1080 × 1350</span>
+      <span>Manifesto list</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas ig-portrait">
+          <div class="creative creative-bg-charcoal ig-content" style="flex-direction:column; align-items:flex-start; justify-content:flex-start;">
+            <div class="eyebrow" style="margin-bottom:18px;">Six Principles</div>
+            <h2 class="ad-h1-serif" style="font-size:54px; color:white; line-height:1.1; margin-bottom:40px;">For the independent practice ready to <span style="color:var(--cyan); font-style:italic;">compete.</span></h2>
+            <div class="principles" style="color:rgba(255,255,255,0.92);">
+              <div><span class="pnum">01.</span>Stop being the operating system.</div>
+              <div><span class="pnum">02.</span>Build systems that protect the soul.</div>
+              <div><span class="pnum">03.</span>Treat communication like infrastructure.</div>
+              <div><span class="pnum">04.</span>Let the numbers tell the story.</div>
+              <div><span class="pnum">05.</span>Turn culture into a competitive advantage.</div>
+              <div><span class="pnum">06.</span>Automate busy work. Empower human work.</div>
+            </div>
+            <div style="margin-top:60px; padding-top:30px; border-top:1px solid rgba(255,255,255,0.12); width:100%; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-family:'DM Mono', monospace; font-size:12px; letter-spacing:2px; color:rgba(255,255,255,0.5); text-transform:uppercase;">Modern Leadership Guide</div>
+                <div style="color:white; font-size:16px; margin-top:4px;">Free Download</div>
+              </div>
+              <img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:30px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>Six Principles for the Independent Practice Ready to Compete</p></div>
+      <div class="field"><h4>Primary text</h4><p>Two practicing dentists. One operational platform. Six principles that changed what independent practice ownership looks like on a Monday morning. Co-written with Dr. Bessey and Dr. Gonzales of Hockley Dental. Download free.</p></div>
+      <div class="field"><h4>CTA</h4><p>Get the Guide</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/leadership-guide</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- IG3: Office Manager Portrait -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">IG3 · Office Manager Quote Portrait</div>
+    <div class="ad-meta">
+      <span class="badge-ig">Instagram</span>
+      <span class="spec">1080 × 1350</span>
+      <span>Photo + quote overlay</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas ig-portrait">
+          <div class="creative has-photo">
+            <div class="creative-photo-bleed" style="background-image:url('Office%20manager%207.jpeg');"></div>
+            <div class="creative-photo-overlay"></div>
+            <div class="creative-photo-content" style="bottom:80px;">
+              <div class="eyebrow">For the Person Running the Day</div>
+              <h2 class="ad-h1-serif" style="font-size:62px; color:white; line-height:1.1;">When the office manager can lead the work, the doctors can lead the practice.</h2>
+              <div style="margin-top:40px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.18); display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <div style="font-family:'DM Mono', monospace; font-size:13px; letter-spacing:2px; color:rgba(255,255,255,0.7); text-transform:uppercase;">Office Manager Field Guide</div>
+                  <div style="color:white; font-size:17px; font-weight:600; margin-top:4px;">Free PDF</div>
+                </div>
+                <img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:30px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>When the Office Manager Can Lead the Work, the Doctors Can Lead the Practice</p></div>
+      <div class="field"><h4>Primary text</h4><p>A strong office manager cannot lead from scattered information. The right tools change what her role becomes. This field guide was built for the person running the day. Practical frameworks. Real examples. Free download.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download Free</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/office-manager-guide</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- FOUNDER-LED LINKEDIN AD -->
+<!-- ========================================= -->
+<div class="group-divider">
+  <h2>LinkedIn · Founder-Led Story Ad</h2>
+  <p>Personality-led variant for testing in week 2. Pulls trust signal from showing the actual founders, not just stats.</p>
+</div>
+
+<!-- F1: Three founders -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">F1 · Three Founders, One Stance</div>
+    <div class="ad-meta">
+      <span class="badge-li">LinkedIn + Facebook</span>
+      <span class="spec">1200 × 627</span>
+      <span>Founder portraits · Trust signal</span>
+    </div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap">
+      <div class="canvas-scaler">
+        <div class="ad-canvas linkedin">
+          <div class="creative creative-bg-charcoal" style="padding:50px 70px;">
+            <div style="display:flex; gap:40px; align-items:center; width:100%;">
+              <div style="flex:0 0 auto; display:flex; gap:18px;">
+                <div style="text-align:center;">
+                  <div style="width:130px; height:130px; border-radius:50%; background-image:url('Ryan_Jacox.png'); background-size:cover; background-position:center; border:3px solid var(--cyan);"></div>
+                  <div style="color:white; font-size:12px; margin-top:8px; font-weight:600;">Ryan Jacox</div>
+                  <div style="color:rgba(255,255,255,0.55); font-size:10px;">CEO</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="width:130px; height:130px; border-radius:50%; background-image:url('bessey.png'); background-size:cover; background-position:center; border:3px solid var(--cyan);"></div>
+                  <div style="color:white; font-size:12px; margin-top:8px; font-weight:600;">Dr. Bessey</div>
+                  <div style="color:rgba(255,255,255,0.55); font-size:10px;">Co-Founder, CDO</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="width:130px; height:130px; border-radius:50%; background-image:url('gonzales.png'); background-size:cover; background-position:center; border:3px solid var(--cyan);"></div>
+                  <div style="color:white; font-size:12px; margin-top:8px; font-weight:600;">Dr. Gonzales</div>
+                  <div style="color:rgba(255,255,255,0.55); font-size:10px;">Co-Founder, CCA</div>
+                </div>
+              </div>
+              <div style="flex:1;">
+                <div class="eyebrow" style="font-size:11px;">Proud Defenders of Independent Practice</div>
+                <h2 class="ad-h1-serif" style="font-size:42px; color:white; line-height:1.15; margin-top:12px;">One operations executive.<br>Two practicing dentists.<br><span style="color:var(--cyan);">One rebellion.</span></h2>
+                <div style="margin-top:22px;"><img src="logo-dark-horizontal.svg" alt="MedRebel" style="height:28px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline (≤70)</h4><p>The team building MedRebel for independent practices.</p></div>
+      <div class="field"><h4>Intro text (~150)</h4><p>One operations executive. Two practicing dentists. One rebellion. We built MedRebel because we lived the problem from both sides. See the case study from Hockley Dental.</p></div>
+      <div class="field"><h4>Description (≤70)</h4><p>The independent practice operating system. By people who run them.</p></div>
+      <div class="field"><h4>CTA</h4><p>Learn More</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/about</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- LIGHT MODE BRAND VARIANT (pricing page aesthetic) -->
+<!-- ========================================= -->
+<div class="group-divider">
+  <h2>Light Mode Brand Variant · Pricing Page Aesthetic</h2>
+  <p>Dark navy header strip, light cream body, dark navy headlines with one cyan-gradient accent word, faded photography. Built to match the medrebel.io pricing page polish. Six images × two formats = 12 ads.</p>
+</div>
+
+<!-- ============ 1. KPI MEETING ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L1 · When Data Turns Into Direction (KPI Meeting)</div>
+    <div class="ad-meta"><span class="badge-li">LinkedIn + Facebook</span><span class="spec">1200 × 627</span><span>Light mode · KPI dashboard image</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas linkedin">
+      <div class="lm-wrap">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"><span class="eyebrow-r">MEDREBEL OS · LEADERSHIP DASHBOARDS</span></div>
+        <div class="lm-body">
+          <div class="lm-content">
+            <div class="lm-eyebrow">Built for Owner-Operators</div>
+            <h2 class="lm-h1">When data turns into <span class="accent">direction.</span></h2>
+            <p class="lm-sub">The Monday morning leadership meeting that used to be a guess. KPI dashboards with AI-driven operational insight, built into MedRebel OS.</p>
+            <div class="lm-footer"><strong>medrebel.io/demo</strong> · Free Demo</div>
+          </div>
+          <div class="lm-photo" style="background-image:url('doctors%20and%20om%20kpi%20meeting%20color%20fix.jpeg');"></div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>When data turns into direction.</p></div>
+      <div class="field"><h4>Intro text</h4><p>Most practice owners are short on clarity, not effort. MedRebel OS turns scattered activity into one operational view: missed calls become follow-up tasks, lead pipelines become coachable, the Monday meeting stops being a guess.</p></div>
+      <div class="field"><h4>Description</h4><p>The leadership dashboard built for independent practices.</p></div>
+      <div class="field"><h4>CTA</h4><p>Request Demo</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/demo</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 1b. KPI MEETING - SQUARE ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L1b · KPI Meeting (Square)</div>
+    <div class="ad-meta"><span class="badge-fb">FB Feed</span><span class="badge-ig">IG Feed</span><span class="spec">1080 × 1080</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas fb-square">
+      <div class="lm-wrap lm-square">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"></div>
+        <div class="lm-body stacked">
+          <div class="lm-photo" style="background-image:url('doctors%20and%20om%20kpi%20meeting%20color%20fix.jpeg');"></div>
+          <div class="lm-content">
+            <div class="lm-eyebrow">For Owner-Operators</div>
+            <h2 class="lm-h1">When data turns into <span class="accent">direction.</span></h2>
+            <p class="lm-sub">KPI dashboards with AI insight. The Monday meeting that used to be a guess.</p>
+            <div class="lm-footer"><strong>medrebel.io/demo</strong> · Free Demo</div>
+          </div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>When Data Turns Into Direction</p></div>
+      <div class="field"><h4>Primary text</h4><p>Most practice owners are short on clarity, not effort. MedRebel OS turns scattered activity into one operational view. The Monday morning meeting stops being a guess.</p></div>
+      <div class="field"><h4>CTA</h4><p>Request Demo</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/demo</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 2. TIRED DENTIST ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L2 · You Did Not Go to Dental School For This</div>
+    <div class="ad-meta"><span class="badge-li">LinkedIn + Facebook</span><span class="spec">1200 × 627</span><span>Light mode · Burnout reframe</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas linkedin">
+      <div class="lm-wrap">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"><span class="eyebrow-r">MEDREBEL OS · BUILT FOR DENTISTS</span></div>
+        <div class="lm-body">
+          <div class="lm-photo" style="background-image:url('Tired%20Dentist%20colro%20fix.jpeg');"></div>
+          <div class="lm-content">
+            <div class="lm-eyebrow">Stop Being the Operating System</div>
+            <h2 class="lm-h1">You did not go to dental school to chase <span class="accent">missed calls.</span></h2>
+            <p class="lm-sub">The doctor should be leading the practice, not filling every operational gap. MedRebel OS carries the work so you can carry the care.</p>
+            <div class="lm-footer"><strong>medrebel.io/demo</strong> · 30-Minute Demo</div>
+          </div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>You did not go to dental school to chase missed calls.</p></div>
+      <div class="field"><h4>Intro text</h4><p>Most independent dentists become the unofficial operating system of their own practice. Identifying problems. Tasking the team one by one. End that. The doctor should be leading the practice, not filling every operational gap.</p></div>
+      <div class="field"><h4>Description</h4><p>MedRebel OS. Built for independent dentists.</p></div>
+      <div class="field"><h4>CTA</h4><p>Request Demo</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/demo</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 2b. TIRED DENTIST SQUARE ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L2b · Tired Dentist (Square)</div>
+    <div class="ad-meta"><span class="badge-fb">FB Feed</span><span class="badge-ig">IG Feed</span><span class="spec">1080 × 1080</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas fb-square">
+      <div class="lm-wrap lm-square">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"></div>
+        <div class="lm-body stacked">
+          <div class="lm-photo" style="background-image:url('Tired%20Dentist%20colro%20fix.jpeg');"></div>
+          <div class="lm-content">
+            <div class="lm-eyebrow">Stop Being the Operating System</div>
+            <h2 class="lm-h1">You did not go to dental school to chase <span class="accent">missed calls.</span></h2>
+            <p class="lm-sub">MedRebel OS carries the work so you can carry the care.</p>
+            <div class="lm-footer"><strong>medrebel.io/demo</strong> · Free Demo</div>
+          </div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>You Did Not Go to Dental School to Chase Missed Calls</p></div>
+      <div class="field"><h4>Primary text</h4><p>Most independent dentists become the unofficial operating system of their own practice. End that. MedRebel OS carries the work so you can carry the care.</p></div>
+      <div class="field"><h4>CTA</h4><p>Request Demo</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/demo</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 3. HIGH FIVE ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L3 · Reward Publicly. Correct Privately.</div>
+    <div class="ad-meta"><span class="badge-li">LinkedIn + Facebook</span><span class="spec">1200 × 627</span><span>Light mode · Culture/team</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas linkedin">
+      <div class="lm-wrap">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"><span class="eyebrow-r">CULTURE IS THE COMPETITIVE ADVANTAGE</span></div>
+        <div class="lm-body">
+          <div class="lm-content">
+            <div class="lm-eyebrow">Six Principles · Ch. 5</div>
+            <h2 class="lm-h1">Reward publicly. Correct privately. <span class="accent">Always.</span></h2>
+            <p class="lm-sub">The single discipline that builds more trust than any team-building exercise. From the Hockley Dental Case Study.</p>
+            <div class="lm-footer"><strong>medrebel.io/hockley-case-study</strong> · Free Download</div>
+          </div>
+          <div class="lm-photo" style="background-image:url('high%20five%20with%20male%20nurse%20and%20female%20doctor%20color%20fix.jpeg');"></div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>Reward publicly. Correct privately. Always.</p></div>
+      <div class="field"><h4>Intro text</h4><p>Corporate dental groups can outspend you on marketing and signing bonuses. They cannot replicate what is inside your office. Culture is the competitive advantage you already own. Protect it.</p></div>
+      <div class="field"><h4>Description</h4><p>The Hockley Dental case study. Free PDF.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hockley-case-study</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 3b. HIGH FIVE SQUARE ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L3b · High Five (Square)</div>
+    <div class="ad-meta"><span class="badge-fb">FB Feed</span><span class="badge-ig">IG Feed</span><span class="spec">1080 × 1080</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas fb-square">
+      <div class="lm-wrap lm-square">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"></div>
+        <div class="lm-body stacked">
+          <div class="lm-photo" style="background-image:url('high%20five%20with%20male%20nurse%20and%20female%20doctor%20color%20fix.jpeg');"></div>
+          <div class="lm-content">
+            <div class="lm-eyebrow">Six Principles · Ch. 5</div>
+            <h2 class="lm-h1">Reward publicly. Correct privately. <span class="accent">Always.</span></h2>
+            <p class="lm-sub">Culture is the competitive advantage you already own. Protect it.</p>
+            <div class="lm-footer"><strong>medrebel.io/hockley-case-study</strong> · Free</div>
+          </div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>Reward Publicly. Correct Privately. Always.</p></div>
+      <div class="field"><h4>Primary text</h4><p>Corporate groups can outspend you on marketing. They cannot replicate what is inside your office. Culture is your competitive advantage. Hockley Dental case study. Free.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hockley-case-study</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 4. TEAM MEETING ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L4 · The Office Manager Has a Place to Lead</div>
+    <div class="ad-meta"><span class="badge-li">LinkedIn + Facebook</span><span class="spec">1200 × 627</span><span>Light mode · Team alignment</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas linkedin">
+      <div class="lm-wrap">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"><span class="eyebrow-r">FOR OFFICE MANAGERS + OWNER-OPERATORS</span></div>
+        <div class="lm-body">
+          <div class="lm-photo" style="background-image:url('Team%20meeting%20modern%20office%20still%20color%20fix.jpeg');"></div>
+          <div class="lm-content">
+            <div class="lm-eyebrow">Office Manager Field Guide</div>
+            <h2 class="lm-h1">When the office manager can lead the work, the <span class="accent">doctors can lead the practice.</span></h2>
+            <p class="lm-sub">A strong office manager cannot lead from scattered information. Give her the system, give her a place to lead.</p>
+            <div class="lm-footer"><strong>medrebel.io/office-manager-guide</strong> · Free PDF</div>
+          </div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>When the office manager can lead the work, the doctors can lead the practice.</p></div>
+      <div class="field"><h4>Intro text</h4><p>Responsibility without visibility is not leadership. It is pressure. This field guide is for the person running the day. Practical frameworks. Real examples. Free.</p></div>
+      <div class="field"><h4>Description</h4><p>The Office Manager Field Guide. Free PDF.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/office-manager-guide</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 4b. TEAM MEETING SQUARE ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L4b · Team Meeting (Square)</div>
+    <div class="ad-meta"><span class="badge-fb">FB Feed</span><span class="badge-ig">IG Feed</span><span class="spec">1080 × 1080</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas fb-square">
+      <div class="lm-wrap lm-square">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"></div>
+        <div class="lm-body stacked">
+          <div class="lm-photo" style="background-image:url('Team%20meeting%20modern%20office%20still%20color%20fix.jpeg');"></div>
+          <div class="lm-content">
+            <div class="lm-eyebrow">Office Manager Field Guide</div>
+            <h2 class="lm-h1">Give her the system. Give her a <span class="accent">place to lead.</span></h2>
+            <p class="lm-sub">A strong office manager cannot lead from scattered information. Free field guide.</p>
+            <div class="lm-footer"><strong>medrebel.io/office-manager-guide</strong> · Free</div>
+          </div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>Give Her the System. Give Her a Place to Lead.</p></div>
+      <div class="field"><h4>Primary text</h4><p>Responsibility without visibility is not leadership. It is pressure. The Office Manager Field Guide. Free PDF.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/office-manager-guide</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 5. INDEPENDENT DENTIST WITH PATIENT ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L5 · Independent. By Choice.</div>
+    <div class="ad-meta"><span class="badge-li">LinkedIn + Facebook</span><span class="spec">1200 × 627</span><span>Light mode · Identity</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas linkedin">
+      <div class="lm-wrap">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"><span class="eyebrow-r">PROUD DEFENDERS OF INDEPENDENT PRACTICE</span></div>
+        <div class="lm-body">
+          <div class="lm-content">
+            <div class="lm-eyebrow">For Owners Who Refuse to Sell Out</div>
+            <h2 class="lm-h1">Independent. <span class="accent">By choice.</span></h2>
+            <p class="lm-sub">DSOs can outspend you. They cannot replicate what is inside your office. Built for practices that refuse to choose between growth and culture.</p>
+            <div class="lm-footer"><strong>medrebel.io/hockley-case-study</strong> · Case Study</div>
+          </div>
+          <div class="lm-photo" style="background-image:url('Indep%20Dentist%20with%20Patient%20%28jeans%29%20color%20fix.jpeg');"></div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>Independent. By choice.</p></div>
+      <div class="field"><h4>Intro text</h4><p>The doctor who still knows every patient by name. The team that stayed because they believed. That is your advantage. MedRebel gives you the systems to protect it.</p></div>
+      <div class="field"><h4>Description</h4><p>The Hockley Dental case study. Free download.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hockley-case-study</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 5b. INDEPENDENT SQUARE ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L5b · Independent (Square)</div>
+    <div class="ad-meta"><span class="badge-fb">FB Feed</span><span class="badge-ig">IG Feed</span><span class="spec">1080 × 1080</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas fb-square">
+      <div class="lm-wrap lm-square">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"></div>
+        <div class="lm-body stacked">
+          <div class="lm-photo" style="background-image:url('Indep%20Dentist%20with%20Patient%20%28jeans%29%20color%20fix.jpeg');"></div>
+          <div class="lm-content">
+            <div class="lm-eyebrow">Proud Defenders of Independent Practice</div>
+            <h2 class="lm-h1">Independent. <span class="accent">By choice.</span></h2>
+            <p class="lm-sub">Built for practices that refuse to choose between growth and culture.</p>
+            <div class="lm-footer"><strong>medrebel.io/hockley-case-study</strong> · Case Study</div>
+          </div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>Independent. By Choice.</p></div>
+      <div class="field"><h4>Primary text</h4><p>DSOs can outspend you. They cannot replicate what is inside your office. Hockley Dental case study. Free.</p></div>
+      <div class="field"><h4>CTA</h4><p>Download</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/hockley-case-study</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 6. SMILING LOBBY ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L6 · We See You. We Heard You.</div>
+    <div class="ad-meta"><span class="badge-li">LinkedIn + Facebook</span><span class="spec">1200 × 627</span><span>Light mode · Patient experience</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas linkedin">
+      <div class="lm-wrap">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"><span class="eyebrow-r">COMMUNICATION INFRASTRUCTURE</span></div>
+        <div class="lm-body">
+          <div class="lm-photo" style="background-image:url('Dentist%20with%20patient%20in%20lobby%20smiling%20color%20fix.jpeg');"></div>
+          <div class="lm-content">
+            <div class="lm-eyebrow">Patients Feel Seen</div>
+            <h2 class="lm-h1">The first promise is not procedural. It is <span class="accent">relational.</span></h2>
+            <p class="lm-sub">We see you. We heard you. You will not fall through the cracks. The communication infrastructure that lets your team carry the care.</p>
+            <div class="lm-footer"><strong>medrebel.io/demo</strong> · 30-Minute Demo</div>
+          </div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>The first promise is not procedural. It is relational.</p></div>
+      <div class="field"><h4>Intro text</h4><p>Lead response time at Hockley Dental dropped from 2 hours to under 5 minutes. Conversion went from 42% to 75%. The numbers mattered. The deeper change was simpler. Patients stopped feeling lost.</p></div>
+      <div class="field"><h4>Description</h4><p>MedRebel OS. The communication infrastructure for independent practices.</p></div>
+      <div class="field"><h4>CTA</h4><p>Request Demo</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/demo</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 6b. SMILING LOBBY SQUARE ============ -->
+<div class="ad-section">
+  <div class="ad-header">
+    <div class="ad-title">L6b · Smiling Lobby (Square)</div>
+    <div class="ad-meta"><span class="badge-fb">FB Feed</span><span class="badge-ig">IG Feed</span><span class="spec">1080 × 1080</span></div>
+  </div>
+  <div class="ad-row">
+    <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas fb-square">
+      <div class="lm-wrap lm-square">
+        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"></div>
+        <div class="lm-body stacked">
+          <div class="lm-photo" style="background-image:url('Dentist%20with%20patient%20in%20lobby%20smiling%20color%20fix.jpeg');"></div>
+          <div class="lm-content">
+            <div class="lm-eyebrow">Patients Feel Seen</div>
+            <h2 class="lm-h1">The first promise is not procedural. It is <span class="accent">relational.</span></h2>
+            <p class="lm-sub">We see you. We heard you. You will not fall through the cracks.</p>
+            <div class="lm-footer"><strong>medrebel.io/demo</strong> · Free Demo</div>
+          </div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="copy-pack">
+      <div class="field"><h4>Headline</h4><p>The First Promise Is Not Procedural. It Is Relational.</p></div>
+      <div class="field"><h4>Primary text</h4><p>Lead response time at Hockley Dental dropped from 2 hours to under 5 minutes. The deeper change was simpler. Patients stopped feeling lost. MedRebel OS.</p></div>
+      <div class="field"><h4>CTA</h4><p>Request Demo</p></div>
+      <div class="field"><h4>Landing URL</h4><p>medrebel.io/demo</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="page-header" style="margin-top:60px;">
+  <h1 style="font-size:28px;">That's the deck.</h1>
+  <p>13 ad creatives across LinkedIn (10), Meta Square (4), and Instagram Portrait (3). All rendered at exact upload spec. All using real images from your marketing folder and your actual horizontal logo. No AI image generation. No stock-photo cliché. The voice and the visuals stay locked to the Hockley case study source.</p>
+  <div class="instr"><strong>NEXT:</strong> Open Chrome DevTools (Cmd+Opt+I), inspect the .ad-canvas element you want to export, right-click in the elements panel, choose "Capture node screenshot". File downloads at exact pixel dimensions. Drop into LinkedIn Campaign Manager and Meta Ads Manager.</div>
+</div>
+
+</body>
+</html>
