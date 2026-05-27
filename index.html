@@ -866,10 +866,14 @@
   </div>
   <div class="ad-row">
     <div class="ad-canvas-wrap"><div class="canvas-scaler"><div class="ad-canvas linkedin">
-      <div class="lm-wrap">
-        <div class="lm-header"><img src="logo-dark-horizontal.svg" alt="MedRebel"><span class="eyebrow-r">MEDREBEL OS · BUILT FOR DENTISTS</span></div>
-        <div class="lm-body">
-          <div class="lm-photo" style="background-image:url('Tired%20Dentist%20colro%20fix.jpeg');"></div>
+      <div class="lm-wrap" style="background:none; position:relative;">
+        <!-- Full-bleed background image -->
+        <div style="position:absolute; inset:0; background-image:url('stop-practicing-operations.jpeg'); background-size:cover; background-position:center; z-index:0;"></div>
+        <!-- White fade right: transparent left, white right -->
+        <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 38%, rgba(255,255,255,0.75) 58%, rgba(255,255,255,0.97) 100%); z-index:1;"></div>
+        <div class="lm-header" style="position:relative; z-index:2; background:rgba(10,24,40,0.88);"><img src="logo-dark-horizontal.svg" alt="MedRebel"><span class="eyebrow-r">MEDREBEL OS · BUILT FOR DENTISTS</span></div>
+        <div class="lm-body" style="grid-template-columns:45% 55%; position:relative; z-index:2;">
+          <div></div>
           <div class="lm-content">
             <div class="lm-eyebrow">Stop Being the Operating System</div>
             <h2 class="lm-h1">You did not go to dental school to chase <span class="accent">missed calls.</span></h2>
